@@ -14,6 +14,7 @@ export function AuthProvider({ children }) {
   const router = useRouter();
 
   useEffect(() => {
+    // next.js puede intentar correr esto en el servidor, donde no existe window/localStorage
     const stored = typeof window !== 'undefined' ? localStorage.getItem(STORAGE_KEY) : null;
     if (!stored) {
       setLoading(false);
@@ -34,6 +35,7 @@ export function AuthProvider({ children }) {
 
   const login = useCallback(async (email, password) => {
     const data = await api.login({ email, password });
+    // localStorage para que sobreviva un refresh, el estado para que la UI reaccione ya mismo
     localStorage.setItem(STORAGE_KEY, data.token);
     setToken(data.token);
     setUser(data.user);
