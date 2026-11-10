@@ -171,15 +171,15 @@ function ChatPageContent() {
 
       <div className="flex min-h-0 flex-1">
         <aside className="flex w-80 flex-shrink-0 flex-col border-r border-stone-200 bg-white">
-          <div className="flex items-center justify-between border-b border-stone-200 p-4">
+          <div className="flex items-center justify-between bg-stone-900 p-4">
             <div className="flex min-w-0 items-center gap-3">
               <Avatar name={user.name} />
               <div className="min-w-0">
-                <p className="truncate text-sm font-semibold text-stone-900">{user.name}</p>
-                <p className="truncate text-xs text-stone-500">{user.email}</p>
+                <p className="truncate text-sm font-semibold text-white">{user.name}</p>
+                <p className="truncate text-xs text-stone-400">{user.email}</p>
               </div>
             </div>
-            <button onClick={logout} className="rounded-md px-2 py-1 text-sm text-stone-500 transition-colors hover:bg-stone-100 hover:text-stone-800">
+            <button onClick={logout} className="rounded-md px-2 py-1 text-sm text-stone-300 transition-colors hover:bg-white/10 hover:text-white">
               Salir
             </button>
           </div>
