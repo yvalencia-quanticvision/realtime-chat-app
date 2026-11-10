@@ -1,5 +1,9 @@
 FROM node:20-alpine
 
+# alpine no trae openssl por defecto, y el motor de prisma lo necesita para
+# conectarse a postgres; sin esto el contenedor entra en crash-loop
+RUN apk add --no-cache openssl
+
 WORKDIR /app
 
 COPY package*.json ./
