@@ -86,13 +86,13 @@ function AttachmentView({ attachment, isOwn }) {
         if (!blobUrl) e.preventDefault();
       }}
       className={`flex items-center gap-2 rounded-lg border px-3 py-2 ${
-        isOwn ? 'border-white/20 bg-white/10' : 'border-stone-200 bg-stone-50'
+        isOwn ? 'border-brand-200 bg-white/60' : 'border-stone-200 bg-stone-50'
       }`}
     >
       <span className="text-xl">📄</span>
       <div className="min-w-0">
         <p className="truncate text-sm font-medium">{attachment.filename}</p>
-        <p className={`text-xs ${isOwn ? 'text-brand-100' : 'text-stone-500'}`}>
+        <p className={`text-xs ${isOwn ? 'text-brand-600' : 'text-stone-500'}`}>
           {failed ? 'No se pudo cargar el archivo' : formatFileSize(attachment.size)}
           {!blobUrl && !failed ? ' · cargando...' : ''}
         </p>
@@ -105,8 +105,8 @@ export default function MessageBubble({ message, isOwn }) {
   return (
     <div className={`flex animate-fade-in ${isOwn ? 'justify-end' : 'justify-start'}`}>
       <div
-        className={`max-w-[75%] rounded-2xl px-4 py-2 shadow-sm ${
-          isOwn ? 'bg-brand-600 text-white' : 'border border-stone-200 bg-white text-stone-900'
+        className={`max-w-[75%] rounded-xl border px-4 py-2 shadow-sm ${
+          isOwn ? 'border-brand-200 bg-brand-50 text-stone-900' : 'border-stone-200 bg-white text-stone-900'
         }`}
       >
         {!isOwn && (
@@ -120,7 +120,7 @@ export default function MessageBubble({ message, isOwn }) {
         {message.content && (
           <p className="whitespace-pre-wrap break-words text-sm">{message.content}</p>
         )}
-        <p className={`mt-1 text-right text-[10px] ${isOwn ? 'text-brand-100' : 'text-stone-400'}`}>
+        <p className={`mt-1 text-right text-[10px] ${isOwn ? 'text-brand-500' : 'text-stone-400'}`}>
           {formatTime(message.createdAt)}
         </p>
       </div>
