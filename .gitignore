@@ -1,0 +1,20 @@
+node_modules/
+.next/
+dist/
+build/
+.env
+.env.local
+*.log
+npm-debug.log*
+
+# editor/OS
+.DS_Store
+.vscode/
+.idea/
+
+# prisma
+backend/prisma/migrations/dev.db
+
+# uploaded attachments: keep the directory, not what gets dropped in it
+backend/uploads/*
+!backend/uploads/.gitkeep
