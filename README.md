@@ -90,6 +90,42 @@ Para pasar un `JWT_SECRET` propio en vez del valor por defecto:
 JWT_SECRET=algo-largo-y-aleatorio docker-compose up --build
 ```
 
+## Arquitectura
+
+### Modelo de datos
+
+El schema completo esta en `backend/prisma/schema.prisma`. Las migraciones (el historial versionado que genera esos cambios en Postgres) estan en `backend/prisma/migrations/`, una carpeta por migracion (`20261110131709_init` crea las tablas base, `20261110140354_add_attachments` agrega los adjuntos).
+
+| Tabla | Que representa | Relacion |
+|---|---|---|
+| `User` | Una cuenta registrada | - |
+| `Chat` | Una conversacion (1 a 1 o grupal, segun `isGroup`) | - |
+| `ChatParticipant` | Que usuario pertenece a que chat | tabla puente, resuelve el muchos-a-muchos entre `User` y `Chat` |
+| `Message` | Un mensaje dentro de un chat | pertenece a un `Chat` y a un `User` (el remitente) |
+| `Attachment` | El archivo adjunto de un mensaje, si tiene | uno a uno opcional con `Message` |
+
+### Rutas del backend
+
+Todas bajo `/api`, montadas en `backend/src/app.js`. Las de `/api/chats` exigen estar autenticado (`requireAuth` aplicado a todo ese router).
+
+| Metodo | Ruta | Que hace |
+|---|---|---|
+| POST | `/api/auth/register` | Crea un usuario y devuelve su token |
+| POST | `/api/auth/login` | Valida credenciales y devuelve un token |
+| GET | `/api/auth/me` | Datos del usuario autenticado |
+| GET | `/api/users` | Lista los usuarios registrados, para elegir con quien chatear |
+| GET | `/api/chats` | Lista los chats del usuario autenticado |
+| POST | `/api/chats` | Crea un chat (o grupo, si hay mas de un participante) |
+| GET | `/api/chats/:chatId` | Trae un chat puntual (verifica pertenencia) |
+| DELETE | `/api/chats/:chatId` | Elimina un chat (participantes y mensajes en cascada) |
+| PATCH | `/api/chats/:chatId` | Cambia el nombre de un grupo |
+| GET | `/api/chats/:chatId/messages` | Historial de mensajes de un chat |
+| POST | `/api/chats/:chatId/messages` | Manda un mensaje de texto |
+| POST | `/api/chats/:chatId/messages/attachment` | Manda un mensaje con un archivo adjunto |
+| GET | `/api/chats/:chatId/messages/:messageId/attachment` | Descarga el adjunto de un mensaje (verifica pertenencia al chat) |
+
+Ademas de las rutas REST, el servidor de sockets (`backend/src/sockets/index.js`) maneja los eventos en tiempo real (`message:send`, `chat:join`) sobre la misma conexion que `server.js` levanta.
+
 ## Notas de implementacion
 
 - El token JWT se guarda en `localStorage` en el cliente y se manda tanto en el header `Authorization` de las peticiones REST como en el `auth.token` del handshake de socket.io.
@@ -99,43 +135,40 @@ JWT_SECRET=algo-largo-y-aleatorio docker-compose up --build
 - Al reconectar, se vuelve a pedir la lista de chats y los mensajes del chat abierto, por si se perdio algo mientras no habia conexion.
 - Los controladores solo traducen HTTP <-> dominio; la logica vive en `backend/src/services` (authService, userService, chatService, messageService), que reciben el cliente de Prisma por parametro en vez de importarlo directo. El socket y las rutas REST llaman a los mismos servicios, asi que la verificacion de pertenencia a un chat esta en un solo lugar.
 - Seguridad minima aplicada: helmet, rate limiting en `/api/auth/login` y `/api/auth/register` (20 intentos / 15 min por IP), CORS restringido al origen del frontend, passwords con bcrypt, validacion de formato y longitud en cada endpoint que recibe datos del usuario, y respuestas de error 500 genericas (el detalle solo se loguea en el servidor).
+## Capturas de pantalla
 
-
-
-1 Login
+**1. Login**
 <img width="516" height="542" alt="image" src="https://github.com/user-attachments/assets/a63e0901-8964-4ac7-a93c-1e5cbb838299" />
 
-
-2 Registrar 
+**2. Registro**
 <img width="466" height="613" alt="image" src="https://github.com/user-attachments/assets/ac1a9b72-1321-4453-8dd9-54df2ab6915a" />
 
-
-3 Interfaz principal 
+**3. Interfaz principal**
 <img width="1717" height="1266" alt="image" src="https://github.com/user-attachments/assets/054222c7-e038-4472-8d6a-fd66a2e0b63f" />
 
-4 crear nuevo chat 
+**4. Crear nuevo chat**
 <img width="350" height="206" alt="image" src="https://github.com/user-attachments/assets/f63b8483-45ac-4a0f-b91d-1ab64fa1b08f" />
 
-5 Seleccionar  con quien vas hablar 
+**5. Seleccionar con quien vas a hablar**
 <img width="521" height="332" alt="image" src="https://github.com/user-attachments/assets/b4b373b8-bb7f-42c8-8c85-906d6f3f7d94" />
 
-6 si es coges mas de uno  persona para hablar te sale la opción de crear un grupo 
+**6. Si escoges mas de una persona, aparece la opcion de crear un grupo**
 <img width="548" height="440" alt="image" src="https://github.com/user-attachments/assets/b34b7838-dbc2-45df-8f83-50d9a8804d43" />
 
-7 chat individual 
+**7. Chat individual**
 <img width="371" height="124" alt="image" src="https://github.com/user-attachments/assets/bb60750f-0464-49e7-866a-f9ca4c6c1bad" />
 
-8 chat grupo
+**8. Chat grupal**
 <img width="353" height="131" alt="image" src="https://github.com/user-attachments/assets/79a9e058-0559-4000-9468-ecc10ba9aa12" />
 
-9 al grupo se puede cambiar el nombre del chat solo en grupos 
+**9. El nombre de un grupo se puede editar (solo aplica a grupos, no a chats 1 a 1)**
 <img width="361" height="250" alt="image" src="https://github.com/user-attachments/assets/384874eb-3dc4-4d17-8062-6c3f2f4ecfef" />
 
-10 Se peude ver el perfil de  conquien hablas 
+**10. Perfil de la persona con quien hablas**
 <img width="490" height="337" alt="image" src="https://github.com/user-attachments/assets/ac68dfec-18b6-456d-b073-3ff480d36322" />
- 
-11 bandeja de chats 
+
+**11. Bandeja de chats**
 <img width="1369" height="1277" alt="image" src="https://github.com/user-attachments/assets/bf15bcb0-8bed-4092-8a66-04b843f2c1a9" />
 
-12 simulación de dos chats 
+**12. Simulacion de dos usuarios chateando en tiempo real**
 <img width="2554" height="1252" alt="image" src="https://github.com/user-attachments/assets/5e599db4-d12a-4027-9b24-fa014c96844a" />
