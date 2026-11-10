@@ -14,6 +14,8 @@ import ProfileModal from '../../components/ProfileModal';
 import RenameChatModal from '../../components/RenameChatModal';
 import { api, ApiError } from '../../lib/api';
 
+const ACTIVE_CHAT_KEY = 'chat_active_id';
+
 function ChatPageContent() {
   const { user, token, logout } = useAuth();
   const { socket } = useSocket();
@@ -27,12 +29,29 @@ function ChatPageContent() {
   const [deleteError, setDeleteError] = useState('');
   const [renameTarget, setRenameTarget] = useState(null);
 
+  // un recargo de pagina borra el estado de react, asi que el chat activo se
+  // guarda aparte y se restaura aqui, solo si ese chat sigue existiendo
   useEffect(() => {
     api
       .listChats(token)
-      .then((data) => setChats(data.chats))
+      .then((data) => {
+        setChats(data.chats);
+        const stored = typeof window !== 'undefined' ? localStorage.getItem(ACTIVE_CHAT_KEY) : null;
+        if (stored && data.chats.some((c) => c.id === stored)) {
+          setActiveChatId(stored);
+        }
+      })
       .finally(() => setLoadingChats(false));
   }, [token]);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    if (activeChatId) {
+      localStorage.setItem(ACTIVE_CHAT_KEY, activeChatId);
+    } else {
+      localStorage.removeItem(ACTIVE_CHAT_KEY);
+    }
+  }, [activeChatId]);
 
   // una conexion caida puede significar que se creo un chat o llego un
   // mensaje en otro lado mientras estabamos desconectados, asi que se
