@@ -216,7 +216,7 @@ export default function ChatWindow({ chat }) {
 
   return (
     <div className="flex h-full flex-col">
-      <div className="flex items-center gap-3 bg-stone-900 px-5 py-3">
+      <div className="flex items-center gap-3 bg-brand-600 px-5 py-3">
         <Avatar name={chat.name} size="sm" isGroup={chat.isGroup} />
         <h2 className="text-sm font-semibold text-white">{chat.name}</h2>
       </div>
