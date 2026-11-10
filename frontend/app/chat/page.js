@@ -174,7 +174,9 @@ function ChatPageContent() {
       <ConnectionBanner />
 
       <div className="flex min-h-0 flex-1">
-        <aside className="flex w-80 flex-shrink-0 flex-col bg-gradient-to-b from-slate-800 to-slate-900">
+        <aside
+          className={`${activeChat ? 'hidden' : 'flex w-full'} md:flex md:w-80 flex-shrink-0 flex-col bg-gradient-to-b from-slate-800 to-slate-900`}
+        >
           <div className="flex items-center justify-between p-4">
             <div className="flex min-w-0 items-center gap-3">
               <div className="relative flex-shrink-0">
@@ -240,9 +242,9 @@ function ChatPageContent() {
           </div>
         </aside>
 
-        <main className="flex-1 bg-stone-50 transition-opacity duration-150">
+        <main className={`${activeChat ? 'block' : 'hidden'} md:block flex-1 bg-stone-50 transition-opacity duration-150`}>
           {activeChat ? (
-            <ChatWindow key={activeChat.id} chat={activeChat} />
+            <ChatWindow key={activeChat.id} chat={activeChat} onBack={() => selectChat(null)} />
           ) : (
             <div className="flex h-full items-center justify-center text-sm text-stone-400">
               Selecciona una conversacion o crea una nueva

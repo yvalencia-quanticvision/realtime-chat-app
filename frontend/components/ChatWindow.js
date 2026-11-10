@@ -30,7 +30,7 @@ function formatFileSize(bytes) {
   return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
 }
 
-export default function ChatWindow({ chat }) {
+export default function ChatWindow({ chat, onBack }) {
   const { user, token } = useAuth();
   const { socket, connected } = useSocket();
   const [messages, setMessages] = useState([]);
@@ -217,6 +217,15 @@ export default function ChatWindow({ chat }) {
   return (
     <div className="flex h-full flex-col">
       <div className="flex items-center gap-3 border-b border-stone-200 bg-white px-5 py-3">
+        <button
+          onClick={onBack}
+          aria-label="Volver a la lista de chats"
+          className="-ml-1.5 rounded-md p-1.5 text-stone-500 transition-colors hover:bg-stone-100 md:hidden"
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" className="h-4 w-4">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+          </svg>
+        </button>
         <Avatar name={chat.name} size="sm" isGroup={chat.isGroup} />
         <h2 className="text-sm font-semibold text-stone-900">{chat.name}</h2>
       </div>
