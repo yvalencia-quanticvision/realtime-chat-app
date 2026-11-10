@@ -4,7 +4,7 @@ import { SocketProvider } from '../context/SocketContext';
 
 export const metadata = {
   title: 'Chat',
-  description: 'Realtime chat test project',
+  description: 'Aplicacion de chat en tiempo real',
 };
 
 export default function RootLayout({ children }) {
