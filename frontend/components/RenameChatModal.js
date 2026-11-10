@@ -26,11 +26,11 @@ export default function RenameChatModal({ chat, onConfirm, onCancel }) {
     <div className="fixed inset-0 z-30 flex items-center justify-center bg-black/40 p-4">
       <form
         onSubmit={handleSubmit}
-        className="w-full max-w-sm animate-fade-in rounded-xl bg-white p-5 shadow-xl"
+        className="w-full max-w-sm animate-fade-in rounded-2xl bg-white p-6 shadow-xl"
       >
-        <h2 className="mb-4 text-lg font-semibold text-gray-900">Editar nombre del grupo</h2>
+        <h2 className="mb-4 text-lg font-semibold tracking-tight text-stone-900">Editar nombre del grupo</h2>
 
-        {error && <p className="mb-3 text-sm text-red-600">{error}</p>}
+        {error && <p className="mb-3 rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">{error}</p>}
 
         <input
           autoFocus
@@ -38,7 +38,7 @@ export default function RenameChatModal({ chat, onConfirm, onCancel }) {
           onChange={(e) => setName(e.target.value)}
           disabled={pending}
           maxLength={80}
-          className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none disabled:bg-gray-100"
+          className="w-full rounded-lg border border-stone-300 px-3 py-2 text-sm text-stone-900 transition-shadow focus:border-brand-500 focus:outline-none focus:ring-4 focus:ring-brand-100 disabled:bg-stone-100"
         />
 
         <div className="mt-5 flex justify-end gap-2">
@@ -46,14 +46,14 @@ export default function RenameChatModal({ chat, onConfirm, onCancel }) {
             type="button"
             onClick={onCancel}
             disabled={pending}
-            className="rounded-lg px-3 py-2 text-sm font-medium text-gray-600 hover:bg-gray-100 disabled:cursor-not-allowed"
+            className="rounded-lg px-3.5 py-2 text-sm font-medium text-stone-600 hover:bg-stone-100 disabled:cursor-not-allowed"
           >
             Cancelar
           </button>
           <button
             type="submit"
             disabled={pending || !name.trim()}
-            className="flex items-center gap-2 rounded-lg bg-blue-600 px-3 py-2 text-sm font-medium text-white transition-colors hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-gray-300"
+            className="flex items-center gap-2 rounded-lg bg-brand-600 px-3.5 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-brand-700 disabled:cursor-not-allowed disabled:bg-stone-300"
           >
             {pending && <Spinner size="sm" />}
             {pending ? 'Guardando...' : 'Guardar'}

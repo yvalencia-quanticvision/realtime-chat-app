@@ -206,12 +206,12 @@ export default function ChatWindow({ chat }) {
 
   return (
     <div className="flex h-full flex-col">
-      <div className="flex items-center gap-3 border-b border-gray-200 px-4 py-3">
+      <div className="flex items-center gap-3 border-b border-stone-200 bg-white px-5 py-3">
         <Avatar name={chat.name} size="sm" isGroup={chat.isGroup} />
-        <h2 className="font-semibold text-gray-900">{chat.name}</h2>
+        <h2 className="text-sm font-semibold text-stone-900">{chat.name}</h2>
       </div>
 
-      <div className="flex-1 overflow-y-auto bg-gray-50 px-4 py-3">
+      <div className="flex-1 overflow-y-auto px-5 py-4">
         {loading ? (
           <MessagesSkeleton />
         ) : (
@@ -224,18 +224,18 @@ export default function ChatWindow({ chat }) {
         )}
       </div>
 
-      {error && <p className="px-4 pt-2 text-sm text-red-600">{error}</p>}
+      {error && <p className="px-5 pt-2 text-sm text-red-600">{error}</p>}
 
       {pendingFile && (
-        <div className="flex items-center gap-3 border-t border-gray-200 bg-gray-50 px-4 py-2">
+        <div className="flex items-center gap-3 border-t border-stone-200 bg-stone-50 px-5 py-2.5">
           {filePreviewUrl ? (
-            <img src={filePreviewUrl} alt={pendingFile.name} className="h-12 w-12 rounded object-cover" />
+            <img src={filePreviewUrl} alt={pendingFile.name} className="h-12 w-12 rounded-lg object-cover" />
           ) : (
             <span className="text-2xl">📄</span>
           )}
           <div className="min-w-0 flex-1">
-            <p className="truncate text-sm font-medium text-gray-900">{pendingFile.name}</p>
-            <p className="text-xs text-gray-500">
+            <p className="truncate text-sm font-medium text-stone-900">{pendingFile.name}</p>
+            <p className="text-xs text-stone-500">
               {sending ? 'Subiendo...' : formatFileSize(pendingFile.size)}
             </p>
           </div>
@@ -243,20 +243,20 @@ export default function ChatWindow({ chat }) {
             type="button"
             onClick={clearPendingFile}
             disabled={sending}
-            className="text-sm text-gray-400 transition-colors hover:text-red-600 disabled:cursor-not-allowed disabled:opacity-50"
+            className="text-sm text-stone-400 transition-colors hover:text-red-600 disabled:cursor-not-allowed disabled:opacity-50"
           >
             Cancelar
           </button>
         </div>
       )}
 
-      <form onSubmit={handleSend} className="relative flex gap-2 border-t border-gray-200 p-3">
+      <form onSubmit={handleSend} className="relative flex gap-2 border-t border-stone-200 bg-white p-3">
         <button
           type="button"
           onClick={() => fileInputRef.current?.click()}
           disabled={sending}
           aria-label="Adjuntar archivo"
-          className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full border border-gray-300 text-gray-500 transition-colors hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50"
+          className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full border border-stone-300 text-stone-500 transition-colors hover:bg-stone-100 disabled:cursor-not-allowed disabled:opacity-50"
         >
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-5 w-5">
             <path
@@ -278,7 +278,7 @@ export default function ChatWindow({ chat }) {
           onClick={() => setShowEmoji((prev) => !prev)}
           disabled={sending}
           aria-label="Insertar emoji"
-          className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full border border-gray-300 text-lg transition-colors hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50"
+          className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full border border-stone-300 text-lg transition-colors hover:bg-stone-100 disabled:cursor-not-allowed disabled:opacity-50"
         >
           😊
         </button>
@@ -291,12 +291,12 @@ export default function ChatWindow({ chat }) {
           onChange={(e) => setDraft(e.target.value)}
           disabled={sending}
           placeholder="Escribe un mensaje..."
-          className="flex-1 rounded-full border border-gray-300 px-4 py-2 text-sm focus:border-blue-500 focus:outline-none disabled:bg-gray-100"
+          className="flex-1 rounded-full border border-stone-300 px-4 py-2 text-sm text-stone-900 transition-shadow focus:border-brand-500 focus:outline-none focus:ring-4 focus:ring-brand-100 disabled:bg-stone-100"
         />
         <button
           type="submit"
           disabled={sending || (!draft.trim() && !pendingFile)}
-          className="flex items-center justify-center gap-2 rounded-full bg-blue-600 px-5 py-2 text-sm font-medium text-white transition-colors hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-gray-300"
+          className="flex items-center justify-center gap-2 rounded-full bg-brand-600 px-5 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-brand-700 disabled:cursor-not-allowed disabled:bg-stone-300"
         >
           {sending && <Spinner size="sm" />}
           {sending && pendingFile ? 'Subiendo...' : 'Enviar'}

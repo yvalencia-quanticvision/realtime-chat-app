@@ -1,13 +1,13 @@
 const COLORS = [
-  'bg-red-500',
-  'bg-orange-500',
-  'bg-amber-500',
-  'bg-emerald-500',
-  'bg-teal-500',
-  'bg-sky-500',
-  'bg-indigo-500',
-  'bg-violet-500',
-  'bg-pink-500',
+  'bg-rose-700',
+  'bg-amber-700',
+  'bg-lime-700',
+  'bg-emerald-700',
+  'bg-teal-700',
+  'bg-cyan-700',
+  'bg-indigo-700',
+  'bg-violet-700',
+  'bg-fuchsia-700',
 ];
 
 function initials(name = '') {
@@ -43,8 +43,8 @@ export default function Avatar({ name, size = 'md', isGroup = false }) {
 
   return (
     <div
-      className={`flex flex-shrink-0 items-center justify-center rounded-full font-semibold text-white ${sizeClasses} ${
-        isGroup ? 'bg-slate-500' : colorFor(name)
+      className={`flex flex-shrink-0 items-center justify-center rounded-full font-semibold tracking-tight text-white shadow-sm ring-1 ring-black/5 ${sizeClasses} ${
+        isGroup ? 'bg-stone-600' : colorFor(name)
       }`}
     >
       {isGroup ? <GroupIcon /> : initials(name)}

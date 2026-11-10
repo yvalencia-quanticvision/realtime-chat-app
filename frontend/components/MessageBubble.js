@@ -86,13 +86,13 @@ function AttachmentView({ attachment, isOwn }) {
         if (!blobUrl) e.preventDefault();
       }}
       className={`flex items-center gap-2 rounded-lg border px-3 py-2 ${
-        isOwn ? 'border-blue-400 bg-blue-500/30' : 'border-gray-200 bg-gray-50'
+        isOwn ? 'border-white/20 bg-white/10' : 'border-stone-200 bg-stone-50'
       }`}
     >
       <span className="text-xl">📄</span>
       <div className="min-w-0">
         <p className="truncate text-sm font-medium">{attachment.filename}</p>
-        <p className={`text-xs ${isOwn ? 'text-blue-100' : 'text-gray-500'}`}>
+        <p className={`text-xs ${isOwn ? 'text-brand-100' : 'text-stone-500'}`}>
           {failed ? 'No se pudo cargar el archivo' : formatFileSize(attachment.size)}
           {!blobUrl && !failed ? ' · cargando...' : ''}
         </p>
@@ -106,11 +106,11 @@ export default function MessageBubble({ message, isOwn }) {
     <div className={`flex animate-fade-in ${isOwn ? 'justify-end' : 'justify-start'}`}>
       <div
         className={`max-w-[75%] rounded-2xl px-4 py-2 shadow-sm ${
-          isOwn ? 'bg-blue-600 text-white' : 'bg-white text-gray-900'
+          isOwn ? 'bg-brand-600 text-white' : 'border border-stone-200 bg-white text-stone-900'
         }`}
       >
         {!isOwn && (
-          <p className="mb-0.5 text-xs font-semibold text-gray-500">{message.sender?.name}</p>
+          <p className="mb-0.5 text-xs font-semibold text-stone-500">{message.sender?.name}</p>
         )}
         {message.attachment && (
           <div className={message.content ? 'mb-2' : ''}>
@@ -120,7 +120,7 @@ export default function MessageBubble({ message, isOwn }) {
         {message.content && (
           <p className="whitespace-pre-wrap break-words text-sm">{message.content}</p>
         )}
-        <p className={`mt-1 text-right text-[10px] ${isOwn ? 'text-blue-100' : 'text-gray-400'}`}>
+        <p className={`mt-1 text-right text-[10px] ${isOwn ? 'text-brand-100' : 'text-stone-400'}`}>
           {formatTime(message.createdAt)}
         </p>
       </div>

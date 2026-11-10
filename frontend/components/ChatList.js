@@ -21,7 +21,7 @@ export default function ChatList({
 
   if (chats.length === 0) {
     return (
-      <p className="p-4 text-sm text-gray-500">
+      <p className="p-4 text-sm text-stone-500">
         Todavia no tienes conversaciones. Crea una con el boton de arriba.
       </p>
     );
@@ -40,7 +40,7 @@ export default function ChatList({
       chatId: chat.id,
       chat,
       top: rect.bottom + 4,
-      left: rect.right - 160,
+      left: rect.right - 176,
     });
   }
 
@@ -52,19 +52,22 @@ export default function ChatList({
 
   return (
     <>
-      <ul className="divide-y divide-gray-100 overflow-y-auto">
+      <ul className="divide-y divide-stone-100 overflow-y-auto py-1">
         {chats.map((chat) => (
-        <li key={chat.id}>
+        <li key={chat.id} className="relative px-2">
+          {chat.id === activeChatId && (
+            <span className="absolute left-0 top-1/2 h-7 w-[3px] -translate-y-1/2 rounded-r-full bg-brand-600" />
+          )}
           <button
             onClick={() => onSelect(chat.id)}
-            className={`flex w-full items-center gap-3 px-4 py-3 text-left transition-colors hover:bg-gray-50 ${
-              chat.id === activeChatId ? 'bg-blue-50' : ''
+            className={`flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-left transition-colors hover:bg-stone-50 ${
+              chat.id === activeChatId ? 'bg-brand-50' : ''
             }`}
           >
             <Avatar name={chat.name} isGroup={chat.isGroup} />
             <div className="min-w-0 flex-1">
-              <p className="truncate font-medium text-gray-900">{chat.name}</p>
-              <p className="truncate text-sm text-gray-500">
+              <p className="truncate text-sm font-medium text-stone-900">{chat.name}</p>
+              <p className="truncate text-sm text-stone-500">
                 {chat.lastMessage
                   ? chat.lastMessage.content ||
                     (chat.lastMessage.attachment ? `📎 ${chat.lastMessage.attachment.filename}` : '')
@@ -75,7 +78,7 @@ export default function ChatList({
               role="button"
               tabIndex={0}
               onClick={(e) => toggleMenu(e, chat)}
-              className="rounded-full px-2 py-1 text-gray-400 hover:bg-gray-200 hover:text-gray-700"
+              className="rounded-full px-2 py-1 text-stone-400 transition-colors hover:bg-stone-200 hover:text-stone-700"
             >
               &#8942;
             </span>
@@ -89,25 +92,25 @@ export default function ChatList({
           <div className="fixed inset-0 z-10" onClick={() => setOpenMenu(null)} />
           <div
             style={{ position: 'fixed', top: openMenu.top, left: openMenu.left }}
-            className="z-20 w-40 overflow-hidden rounded-lg border border-gray-100 bg-white shadow-lg"
+            className="z-20 w-44 overflow-hidden rounded-xl border border-stone-200 bg-white py-1 shadow-lg shadow-stone-900/5"
           >
             <button
               onClick={(e) => handleAction(e, openMenu.chat, onViewProfile)}
-              className="block w-full px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-50"
+              className="block w-full px-3.5 py-2 text-left text-sm text-stone-700 hover:bg-stone-50"
             >
               Ver perfil
             </button>
             {openMenu.chat.isGroup && (
               <button
                 onClick={(e) => handleAction(e, openMenu.chat, onRenameRequest)}
-                className="block w-full px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-50"
+                className="block w-full px-3.5 py-2 text-left text-sm text-stone-700 hover:bg-stone-50"
               >
                 Editar nombre
               </button>
             )}
             <button
               onClick={(e) => handleAction(e, openMenu.chat, onDeleteRequest)}
-              className="block w-full px-3 py-2 text-left text-sm text-red-600 hover:bg-red-50"
+              className="block w-full px-3.5 py-2 text-left text-sm text-red-600 hover:bg-red-50"
             >
               Eliminar chat
             </button>

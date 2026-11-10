@@ -142,26 +142,31 @@ function ChatPageContent() {
       <ConnectionBanner />
 
       <div className="flex min-h-0 flex-1">
-        <aside className="flex w-80 flex-shrink-0 flex-col border-r border-gray-200 bg-white">
-          <div className="flex items-center justify-between border-b border-gray-200 p-4">
+        <aside className="flex w-80 flex-shrink-0 flex-col border-r border-stone-200 bg-white">
+          <div className="flex items-center justify-between border-b border-stone-200 p-4">
             <div className="flex min-w-0 items-center gap-3">
               <Avatar name={user.name} />
               <div className="min-w-0">
-                <p className="truncate font-semibold text-gray-900">{user.name}</p>
-                <p className="truncate text-xs text-gray-500">{user.email}</p>
+                <p className="truncate text-sm font-semibold text-stone-900">{user.name}</p>
+                <p className="truncate text-xs text-stone-500">{user.email}</p>
               </div>
             </div>
-            <button onClick={logout} className="text-sm text-gray-500 hover:text-gray-800">
+            <button onClick={logout} className="rounded-md px-2 py-1 text-sm text-stone-500 transition-colors hover:bg-stone-100 hover:text-stone-800">
               Salir
             </button>
           </div>
 
-          <button
-            onClick={() => setShowNewChat(true)}
-            className="m-3 rounded-lg bg-blue-600 px-3 py-2 text-sm font-medium text-white transition-colors hover:bg-blue-700"
-          >
-            + Nuevo chat
-          </button>
+          <div className="p-3">
+            <button
+              onClick={() => setShowNewChat(true)}
+              className="flex w-full items-center justify-center gap-1.5 rounded-lg bg-brand-600 px-3 py-2.5 text-sm font-medium text-white shadow-sm transition-colors hover:bg-brand-700"
+            >
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" className="h-4 w-4">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 5v14m-7-7h14" />
+              </svg>
+              Nuevo chat
+            </button>
+          </div>
 
           <div className="flex-1 overflow-y-auto">
             <ChatList
@@ -179,11 +184,11 @@ function ChatPageContent() {
           </div>
         </aside>
 
-        <main className="flex-1 transition-opacity duration-150">
+        <main className="flex-1 bg-stone-50 transition-opacity duration-150">
           {activeChat ? (
             <ChatWindow key={activeChat.id} chat={activeChat} />
           ) : (
-            <div className="flex h-full items-center justify-center text-gray-400">
+            <div className="flex h-full items-center justify-center text-sm text-stone-400">
               Selecciona una conversacion o crea una nueva
             </div>
           )}

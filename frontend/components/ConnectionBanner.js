@@ -8,7 +8,7 @@ export default function ConnectionBanner() {
   if (connected) return null;
 
   return (
-    <div className="animate-slide-down bg-amber-500 px-4 py-2 text-center text-sm font-medium text-white">
+    <div className="animate-slide-down bg-amber-600 px-4 py-2 text-center text-sm font-medium text-white">
       {reconnecting ? 'Reconectando...' : 'Sin conexion. Intentando reconectar...'}
     </div>
   );

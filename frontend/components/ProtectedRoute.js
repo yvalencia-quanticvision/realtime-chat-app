@@ -17,7 +17,7 @@ export default function ProtectedRoute({ children }) {
 
   if (loading || !user) {
     return (
-      <div className="flex h-screen items-center justify-center">
+      <div className="flex h-screen items-center justify-center bg-stone-100">
         <Spinner />
       </div>
     );
