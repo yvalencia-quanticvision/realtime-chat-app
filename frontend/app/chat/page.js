@@ -44,14 +44,19 @@ function ChatPageContent() {
       .finally(() => setLoadingChats(false));
   }, [token]);
 
-  useEffect(() => {
+  // guarda la seleccion apenas ocurre, en vez de con un efecto reactivo sobre
+  // activeChatId: ese efecto correria tambien en el montaje inicial (con el
+  // valor vacio de arranque) y borraria lo guardado antes de que el bloque de
+  // arriba alcanzara a leerlo
+  function selectChat(chatId) {
+    setActiveChatId(chatId);
     if (typeof window === 'undefined') return;
-    if (activeChatId) {
-      localStorage.setItem(ACTIVE_CHAT_KEY, activeChatId);
+    if (chatId) {
+      localStorage.setItem(ACTIVE_CHAT_KEY, chatId);
     } else {
       localStorage.removeItem(ACTIVE_CHAT_KEY);
     }
-  }, [activeChatId]);
+  }
 
   // una conexion caida puede significar que se creo un chat o llego un
   // mensaje en otro lado mientras estabamos desconectados, asi que se
@@ -121,7 +126,11 @@ function ChatPageContent() {
 
   function removeChat(chatId) {
     setChats((prev) => prev.filter((c) => c.id !== chatId));
-    setActiveChatId((prev) => (prev === chatId ? null : prev));
+    setActiveChatId((prev) => {
+      if (prev !== chatId) return prev;
+      if (typeof window !== 'undefined') localStorage.removeItem(ACTIVE_CHAT_KEY);
+      return null;
+    });
   }
 
   async function handleConfirmDelete() {
@@ -150,7 +159,7 @@ function ChatPageContent() {
       const exists = prev.some((c) => c.id === chat.id);
       return exists ? prev : [chat, ...prev];
     });
-    setActiveChatId(chat.id);
+    selectChat(chat.id);
     setShowNewChat(false);
   }
 
@@ -192,7 +201,7 @@ function ChatPageContent() {
               chats={chats}
               loading={loadingChats}
               activeChatId={activeChatId}
-              onSelect={setActiveChatId}
+              onSelect={selectChat}
               onViewProfile={setProfileChat}
               onDeleteRequest={(chat) => {
                 setDeleteError('');
