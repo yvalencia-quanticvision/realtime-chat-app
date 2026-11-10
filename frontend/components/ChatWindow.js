@@ -110,6 +110,13 @@ export default function ChatWindow({ chat }) {
     setPendingFile(null);
   }
 
+  // desactivar el input mientras se envia le quita el foco al navegador; al
+  // reactivarse no se lo devuelve solo, hay que pedirlo de nuevo despues de
+  // que el DOM ya lo habilito
+  function focusDraftInput() {
+    requestAnimationFrame(() => draftInputRef.current?.focus());
+  }
+
   // inserta en la posicion del cursor en vez de siempre al final, para que
   // se comporte como un teclado de emojis nativo
   function handleEmojiSelect(emoji) {
@@ -166,6 +173,7 @@ export default function ChatWindow({ chat }) {
         } else {
           setDraft('');
         }
+        focusDraftInput();
       });
       return;
     }
@@ -179,6 +187,7 @@ export default function ChatWindow({ chat }) {
       setError(err instanceof ApiError ? err.message : 'No se pudo enviar el mensaje');
     } finally {
       setSending(false);
+      focusDraftInput();
     }
   }
 
@@ -201,6 +210,7 @@ export default function ChatWindow({ chat }) {
       setError(err instanceof ApiError ? err.message : 'No se pudo enviar el archivo');
     } finally {
       setSending(false);
+      focusDraftInput();
     }
   }
 
