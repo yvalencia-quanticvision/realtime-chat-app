@@ -137,38 +137,50 @@ Ademas de las rutas REST, el servidor de sockets (`backend/src/sockets/index.js`
 - Seguridad minima aplicada: helmet, rate limiting en `/api/auth/login` y `/api/auth/register` (20 intentos / 15 min por IP), CORS restringido al origen del frontend, passwords con bcrypt, validacion de formato y longitud en cada endpoint que recibe datos del usuario, y respuestas de error 500 genericas (el detalle solo se loguea en el servidor).
 ## Capturas de pantalla
 
-**1. Login**
 <img width="516" height="542" alt="image" src="https://github.com/user-attachments/assets/a63e0901-8964-4ac7-a93c-1e5cbb838299" />
 
-**2. Registro**
+**1. Login**
+
 <img width="466" height="613" alt="image" src="https://github.com/user-attachments/assets/ac1a9b72-1321-4453-8dd9-54df2ab6915a" />
 
-**3. Interfaz principal**
+**2. Registro**
+
 <img width="1717" height="1266" alt="image" src="https://github.com/user-attachments/assets/054222c7-e038-4472-8d6a-fd66a2e0b63f" />
 
-**4. Crear nuevo chat**
+**3. Interfaz principal**
+
 <img width="350" height="206" alt="image" src="https://github.com/user-attachments/assets/f63b8483-45ac-4a0f-b91d-1ab64fa1b08f" />
 
-**5. Seleccionar con quien vas a hablar**
+**4. Crear nuevo chat**
+
 <img width="521" height="332" alt="image" src="https://github.com/user-attachments/assets/b4b373b8-bb7f-42c8-8c85-906d6f3f7d94" />
 
-**6. Si escoges mas de una persona, aparece la opcion de crear un grupo**
+**5. Seleccionar con quien vas a hablar**
+
 <img width="548" height="440" alt="image" src="https://github.com/user-attachments/assets/b34b7838-dbc2-45df-8f83-50d9a8804d43" />
 
-**7. Chat individual**
+**6. Si escoges mas de una persona, aparece la opcion de crear un grupo**
+
 <img width="371" height="124" alt="image" src="https://github.com/user-attachments/assets/bb60750f-0464-49e7-866a-f9ca4c6c1bad" />
 
-**8. Chat grupal**
+**7. Chat individual**
+
 <img width="353" height="131" alt="image" src="https://github.com/user-attachments/assets/79a9e058-0559-4000-9468-ecc10ba9aa12" />
 
-**9. El nombre de un grupo se puede editar (solo aplica a grupos, no a chats 1 a 1)**
+**8. Chat grupal**
+
 <img width="361" height="250" alt="image" src="https://github.com/user-attachments/assets/384874eb-3dc4-4d17-8062-6c3f2f4ecfef" />
 
-**10. Perfil de la persona con quien hablas**
+**9. El nombre de un grupo se puede editar (solo aplica a grupos, no a chats 1 a 1)**
+
 <img width="490" height="337" alt="image" src="https://github.com/user-attachments/assets/ac68dfec-18b6-456d-b073-3ff480d36322" />
 
-**11. Bandeja de chats**
+**10. Perfil de la persona con quien hablas**
+
 <img width="1369" height="1277" alt="image" src="https://github.com/user-attachments/assets/bf15bcb0-8bed-4092-8a66-04b843f2c1a9" />
 
-**12. Simulacion de dos usuarios chateando en tiempo real**
+**11. Bandeja de chats**
+
 <img width="2554" height="1252" alt="image" src="https://github.com/user-attachments/assets/5e599db4-d12a-4027-9b24-fa014c96844a" />
+
+**12. Simulacion de dos usuarios chateando en tiempo real**
